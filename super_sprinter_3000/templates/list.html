@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <title>Super Sprinter 3000</title>
+    <link rel="stylesheet" href="../static/ssp3000.css">
+</head>
+<body>
+
+<p id="caption">User Story Manager</p>
+<table id="storytable">
+    <tr>
+        <th>Id</th>
+        <th>Story Title</th>
+        <th>User story</th>
+        <th>Acceptance criteria</th>
+        <th>Business value</th>
+        <th>Estimation</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for story in stories %}
+    <tr>
+        <td class="shortvalues">{{story.id}}</td>
+        <td class="shortvalues">{{story.story_title}}</td>
+        <td class="longvalues">{{story.user_story}}</td>
+        <td class="longvalues">{{story.acceptance_criteria}}</td>
+        <td class="shortvalues">{{story.business_value}}</td>
+        <td class="shortvalues">{{story.estimation}}</td>
+        <td class="shortvalues">{{story.status}}</td>
+
+        <td id="delete">
+            <form action="chosen_story" method="post">
+                <input name="story_id" type="hidden" value="{{ story.id }}"/>
+                <input class="mybuttons" type="image" name="submit" src="../static/penicon.ico" border="0"
+                       alt="Submit"/>
+            </form>
+        </td>
+        <td id="edit">
+            <form action="delete" method="post">
+                <input name="story_id" type="hidden" value="{{ story.id }}"/>
+                <input class="mybuttons" type="image" name="submit" src="../static/binicon.png" border="0"
+                       alt="Submit"/>
+                </div>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<p>
+<form method="get" action="empty_story">
+    <button name="add" type="submit">ADD NEW STORY</button>
+</form>
+</p>
+</body>
