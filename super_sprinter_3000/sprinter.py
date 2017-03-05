@@ -20,8 +20,9 @@ def init_db():
 
 @app.teardown_appcontext
 def close_db(error):
-    if hasattr(g, 'postgre_db'):
+    if hasattr(g, 'dry'):
         g.postgre_db.close()
+
 
 @app.route('/')
 def show_entries():
@@ -29,9 +30,11 @@ def show_entries():
 
     return render_template('list.html', stories=stories)
 
+
 @app.route('/empty_story')
 def empty_user_story():
     return render_template('form.html', story=None)
+
 
 @app.route('/add_user_story', methods=['POST'])
 def add_user_story():
@@ -44,30 +47,32 @@ def add_user_story():
     new_entry.save()
     return redirect('/')
 
+
 @app.route('/story/<int:story_id>', methods=['GET'])
 def get_story_for_edit(story_id):
     story = Userstories.select().where(Userstories.id == story_id).get()
     return render_template('form.html', story=story)
 
+
 @app.route('/story/<int:story_id>', methods=['POST'])
 def edit_user_story(story_id):
-
     story_for_update = Userstories.update(story_title=request.form['story_title'],
-                                   user_story=request.form['user_story'],
-                                   acceptance_criteria=request.form['acceptance_criteria'],
-                                   business_value=request.form['business_value'],
-                                   estimation=request.form['estimation'],
-                                   status=request.form['status']).where(Userstories.id == story_id)
+                                          user_story=request.form['user_story'],
+                                          acceptance_criteria=request.form['acceptance_criteria'],
+                                          business_value=request.form['business_value'],
+                                          estimation=request.form['estimation'],
+                                          status=request.form['status']).where(Userstories.id == story_id)
     story_for_update.execute()
     return redirect('/')
 
+
 @app.route('/delete/<int:story_id>')
 def delete_user_story(story_id):
-
     story = Userstories.get(Userstories.id == story_id)
     story.delete_instance()
 
     return redirect('/')
+
 
 if __name__ == "__main__":
     init_db()

@@ -1,54 +1,41 @@
-<!DOCTYPE html>
-<head>
-    <title>Super Sprinter 3000</title>
-    <link rel="stylesheet" href="../static/ssp3000.css">
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}All Interviews{% endblock %}
+{% block content %}
 
-<p id="caption">User Story Manager</p>
-<table id="storytable">
-    <tr>
-        <th>Id</th>
-        <th>Story Title</th>
-        <th>User story</th>
-        <th>Acceptance criteria</th>
-        <th>Business value</th>
-        <th>Estimation</th>
-        <th>Status</th>
-        <th></th>
-        <th></th>
-    </tr>
-    {% for story in stories %}
-    <tr>
-        <td class="shortvalues">{{story.id}}</td>
-        <td class="shortvalues">{{story.story_title}}</td>
-        <td class="longvalues">{{story.user_story}}</td>
-        <td class="longvalues">{{story.acceptance_criteria}}</td>
-        <td class="shortvalues">{{story.business_value}}</td>
-        <td class="shortvalues">{{story.estimation}}</td>
-        <td class="shortvalues">{{story.status}}</td>
+    <h1>User Story Manager</h1>
+    <table id="storytable">
+        <tr>
+            <th>Id</th>
+            <th>Story Title</th>
+            <th>User story</th>
+            <th>Acceptance criteria</th>
+            <th>Business value</th>
+            <th>Estimation</th>
+            <th>Status</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for story in stories %}
+            <tr>
+                <td>{{ story.id }}</td>
+                <td>{{ story.story_title }}</td>
+                <td>{{ story.user_story }}</td>
+                <td>{{ story.acceptance_criteria }}</td>
+                <td>{{ story.business_value }}</td>
+                <td>{{ story.estimation }}</td>
+                <td>{{ story.status }}</td>
 
-        <td id="delete">
-            <form action="chosen_story" method="post">
-                <input name="story_id" type="hidden" value="{{ story.id }}"/>
-                <input class="mybuttons" type="image" name="submit" src="../static/penicon.ico" border="0"
-                       alt="Submit"/>
-            </form>
-        </td>
-        <td id="edit">
-            <form action="delete" method="post">
-                <input name="story_id" type="hidden" value="{{ story.id }}"/>
-                <input class="mybuttons" type="image" name="submit" src="../static/binicon.png" border="0"
-                       alt="Submit"/>
-                </div>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<p>
-<form method="get" action="empty_story">
-    <button name="add" type="submit">ADD NEW STORY</button>
-</form>
-</p>
-</body>
+                <td id="edit">
+                    <a class="mybuttons" href="{{ url_for('get_story_for_edit', story_id = story.id) }}">
+                        <img src="{{ url_for('static', filename='img/pencil.svg') }}" alt="Edit Icon">
+                    </a>
+                </td>
+                <td id="delete">
+                    <a class="mybuttons" href="{{ url_for('delete_user_story', story_id = story.id) }}">
+                        <img src="{{ url_for('static', filename='img/delete.svg') }}" alt="Edit Icon">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

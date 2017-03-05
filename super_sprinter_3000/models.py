@@ -1,16 +1,25 @@
-from flaskr.connectdatabase import ConnectDatabase
 from peewee import *
 
 
-class Userstories(Model):
+class CreateDatabase:
+    @staticmethod
+    def create_db_object():
+        identify = open("db.txt", "r")
+        login = identify.readlines()
+        identify.close()
+        db = PostgresqlDatabase(login[0], user=login[0])
+        return db
 
-    story_title = CharField(default="nothing")
-    user_story = TextField(default="anything")
-    acceptance_criteria = TextField(default="something")
-    business_value = IntegerField(default=100)
-    estimation = FloatField(default=0.5)
-    status = CharField(default='1')
 
-
+class BaseModel(Model):
     class Meta:
-        database = ConnectDatabase.db
+        database = CreateDatabase.create_db_object()
+
+
+class Userstories(Model):
+    story_title = CharField()
+    user_story = CharField()
+    acceptance_criteria = TextField()
+    business_value = IntegerField()
+    estimation = FloatField()
+    status = CharField()

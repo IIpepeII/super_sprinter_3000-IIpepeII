@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script type="text/javascript" href="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</head>
+
+
+<nav class="navigator navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="row"></div>
+         <div class="button-wrapper col-lg-6">
+            <a href="{{ url_for('show_entries') }}">
+                <img src="{{ url_for('static', filename='image/home-outline.svg') }}">
+            </a>
+        </div>
+        <div class="button-wrapper col-lg-6">
+            <a href="{{ url_for('empty_user_story') }}">
+                <img src="{{ url_for('static', filename='image/note-plus-outline.svg') }}">
+            </a>
+        </div>
+
+    </div>
+</nav>
+
+    <div class="pattern">
+        <img src="../static/image/blue-mountains-picture.jpg" alt="background">
+    </div>
+
+<body>
+
+
+<section class="container-fluid container">
+    {% block content %} {% endblock %}
+</section>
+</body>
+<footer>
+
+</footer>
+</html>
+

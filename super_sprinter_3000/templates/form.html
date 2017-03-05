@@ -1,51 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block title %}All Interviews{% endblock %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Form</title>
-    <link rel="stylesheet" href="../static/ssp3000_form.css">
-</head>
+    <h1>{% if story %}User Story Management - Edit Story{% else %}User Story Management - Add New
+        Story{% endif %}</h1>
 
-<body>
-    <h1><strong>{% if story %}User Story Management - Edit Story{% else %}User Story Management - Add New Story{% endif %}</strong></h1>
+    <div class="form-wrapper">
 
-    <form action= {% if story %} "{{ url_for('edit_user_story') }}" {% else %} "{{ url_for('add_user_story') }}" {% endif %} method="post" >
-        <label for="story_title">Story title</label>
-        <textarea name="story_title" rows="1" cols="40">{% if story %}{{ story.story_title}}{% else %}{% endif %}</textarea><br/><br/>
+        <form  {% if story %} action="{{ url_for('edit_user_story', story_id = story.id) }}"{% else %}
+                              action=" {{ url_for('add_user_story') }}" {% endif %} method="post">
 
-        <label for="user_story">User Story</label>
-        <textarea name="user_story" rows="5" cols="40">{% if story %}{{ story.user_story}}{% else %}{% endif %}</textarea><br/><br/>
+            <div class="input-group">
+                <label for="story_title">Story title</label>
+                <textarea required id="story_title" name="story_title">{% if story %}{{ story.story_title }}{% endif %}</textarea>
 
-        <label for="acceptance_criteria">Acceptance criteria</label>
-        <textarea name="acceptance_criteria" rows="5" cols="40">{% if story %}{{ story.acceptance_criteria}}{% else %}{% endif %}</textarea><br/><br/>
+                <label for="user_story">User Story</label>
+                <textarea required id="user_story" name="user_story">{% if story %}{{ story.user_story }}{% endif %}</textarea>
 
-        <label for="business_value">Business Value</label>
-        <input type="number" name="business_value" min="100" max="1500" step="100" required>{% if story %}{{ story.business_value}}{% else %}{% endif %}<br/><br/>
+                <label for="acceptance_criteria">Acceptance criteria</label>
+                <textarea required id="acceptance_criteria" name="acceptance_criteria">{% if story %}{{ story.acceptance_criteria }}{% endif %}</textarea>
 
-        <label for="estimation">Estimation</label>
-        <input type="number" name="estimation" min="0.5" max="40" step="0.5" required>{% if story %}{{ story.estimation}}{% else %}{% endif %}<br/><br/>
+                <label for="business_value">Business Value</label>
+                <input id="business_value" type="number" name="business_value" min="100" max="1500" step="100"
+                       {% if story %}value="{{ story.business_value }}"{% else %}value="100"{% endif %} required>
 
-        <label for="status">Status</label>
-        <select name="status">
-            <option value="planning">Planning</option>
-            <option value="to-do">To Do</option>
-            <option value="in-progress">In Progress</option>
-            <option value="review">Review</option>
-            <option value="done">Done</option>
-        </select>
+                <label for="estimation">Estimation</label>
+                <input id="estimation" type="number" name="estimation"  min="0.5" max="40" step="0.5"
+                       {% if story %}value="{{ story.estimation }}"{% else %}value="0.5"{% endif %}required>
 
-        {% if story %}
-        <input name= "story_id" type="hidden" value="{{ story.id }}" />
-        {% endif %}
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option {% if story %}value="{{ story.status }}"{% endif %}>{% if story %}{{ story.status }}{% else %}{% endif %}</option>
+                    <option value="planning">planning</option>
+                    <option value="to-do">to-do</option>
+                    <option value="in-progress">in-progress</option>
+                    <option value="review">review</option>
+                    <option value="done">done</option>
+                </select>
 
-        <br/><br/>
-        <input type="submit">
 
-    </form>
-</body>
+                <div class="submit-wrapper">
+                    <input type="submit">
+                </div>
 
-</html>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
